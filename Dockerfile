@@ -31,8 +31,10 @@ RUN \
     && cd .. \
     && rm -r librdkafka-$LIBRDKAFKA_VERSION \
     && rm v$LIBRDKAFKA_VERSION.tar.gz \
-    && cd /opt \
-    && pip install --upgrade pip \
+    && cd /opt
+    
+RUN \
+    pip install --upgrade pip \
     && pip install \
         confluent-kafka \
         orderedset \
@@ -44,6 +46,6 @@ RUN \
         bash \
         build-base \
     && rm -rf \
-        /root/.cache/pip \
         /var/cache/apk/* \
+        /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
