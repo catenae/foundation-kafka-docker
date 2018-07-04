@@ -14,25 +14,27 @@
 
 FROM catenae/aerospike-client-python:2.2.3
 
-ENV LIBRDKAFKA_VERSION=0.11.1 \
-LIBRDKAFKA_BASE_URL=https://github.com/edenhill/librdkafka/archive
+ARG CATENAE_VERSION
+ARG LIBRDKAFKA_VERSION
+ENV LIBRDKAFKA_BASE_URL=https://github.com/edenhill/librdkafka/archive
 
 RUN \
     apk update && apk upgrade \
     && apk add \
         bash \
         build-base \
-    && wget $LIBRDKAFKA_BASE_URL/v$LIBRDKAFKA_VERSION.tar.gz \
-    && tar xf v$LIBRDKAFKA_VERSION.tar.gz \
+        curl \
+    && curl -L $LIBRDKAFKA_BASE_URL/v$LIBRDKAFKA_VERSION.tar.gz -o librdkafka.tar.gz -s \
+    && tar xf librdkafka.tar.gz \
     && cd librdkafka-$LIBRDKAFKA_VERSION \
     && ./configure --prefix=/usr \
     && make -j \
     && make install \
     && cd .. \
     && rm -r librdkafka-$LIBRDKAFKA_VERSION \
-    && rm v$LIBRDKAFKA_VERSION.tar.gz \
+    && rm librdkafka.tar.gz \
     && cd /opt
-    
+
 RUN \
     pip install --upgrade pip \
     && pip install \
@@ -41,7 +43,7 @@ RUN \
         lxml \
         pyyaml \
         dateutils \
-        catenae \
+        catenae==$CATENAE_VERSION \
     && apk del --purge \
         bash \
         build-base \
