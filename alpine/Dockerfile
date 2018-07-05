@@ -45,9 +45,10 @@ RUN \
         dateutils \
         catenae==$CATENAE_VERSION \
     && apk del --purge \
-        bash \
         build-base \
     && rm -rf \
         /var/cache/apk/* \
         /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
+
+ENTRYPOINT ["bash", "--login", "-i"]
