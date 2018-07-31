@@ -45,7 +45,7 @@ RUN \
         pyyaml \
         dateutils \
         catenae==$CATENAE_VERSION \
-    && apt-get -y remove $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
+    && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
     && apt-get clean \
     && rm init_pkgs new_pkgs \
     && rm -rf \
