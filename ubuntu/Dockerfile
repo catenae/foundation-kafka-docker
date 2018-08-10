@@ -12,10 +12,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM brunneis/python:3.6
+FROM brunneis/python:3.7
 
 ARG CATENAE_VERSION
 ARG LIBRDKAFKA_VERSION
+ARG CONFLUENT_KAFKA_VERSION
 ENV LIBRDKAFKA_BASE_URL https://github.com/edenhill/librdkafka/archive
 
 RUN \
@@ -24,9 +25,9 @@ RUN \
     && apt-get -y install \
         build-essential \
         curl \
+        libssl-dev \
+        zlib1g-dev \
     && dpkg-query -Wf '${Package}\n' | sort > new_pkgs \
-    && apt-get -y install \
-        libssh-dev \
     && curl -L $LIBRDKAFKA_BASE_URL/v$LIBRDKAFKA_VERSION.tar.gz -o librdkafka.tar.gz -s \
     && tar xf librdkafka.tar.gz \
     && cd librdkafka-$LIBRDKAFKA_VERSION \
@@ -39,7 +40,7 @@ RUN \
     && pip install --upgrade pip \
     && pip install \
         aerospike \
-        confluent-kafka \
+        confluent-kafka==$CONFLUENT_KAFKA_VERSION \
         orderedset \
         lxml \
         pyyaml \

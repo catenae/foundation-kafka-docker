@@ -16,6 +16,7 @@ FROM catenae/aerospike-client-python:2.2.3
 
 ARG CATENAE_VERSION
 ARG LIBRDKAFKA_VERSION
+ARG CONFLUENT_KAFKA_VERSION
 ENV LIBRDKAFKA_BASE_URL=https://github.com/edenhill/librdkafka/archive
 
 RUN \
@@ -38,7 +39,7 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
-        confluent-kafka \
+        confluent-kafka==$CONFLUENT_KAFKA_VERSION \
         orderedset \
         lxml \
         pyyaml \
