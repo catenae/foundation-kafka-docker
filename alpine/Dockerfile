@@ -39,6 +39,7 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
+        pymongo \
         confluent-kafka==$CONFLUENT_KAFKA_VERSION \
         orderedset \
         lxml \

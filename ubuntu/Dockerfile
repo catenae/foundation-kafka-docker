@@ -41,6 +41,7 @@ RUN \
     && pip install \
         aerospike \
         confluent-kafka==$CONFLUENT_KAFKA_VERSION \
+	pymongo \
         orderedset \
         lxml \
         pyyaml \
