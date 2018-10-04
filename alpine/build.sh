@@ -6,5 +6,3 @@ docker build \
 --build-arg CONFLUENT_KAFKA_VERSION=$(cat CONFLUENT_KAFKA_VERSION) \
 -t catenae/link:alpine .
 docker tag catenae/link:alpine catenae/link:alpine_$CATENAE_VERSION
-docker push catenae/link:alpine
-docker push catenae/link:alpine_$CATENAE_VERSION

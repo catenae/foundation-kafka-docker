@@ -1,5 +1,5 @@
 #!/bin/bash
 cd alpine
-./build-push.sh
+./build.sh
 cd ../ubuntu
-./build-push.sh
+./build.sh
