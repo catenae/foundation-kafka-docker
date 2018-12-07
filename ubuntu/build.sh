@@ -1,9 +1,8 @@
 #!/bin/bash
-CATENAE_VERSION=$(cat CATENAE_VERSION)
 docker build \
 --build-arg CATENAE_VERSION=$CATENAE_VERSION \
---build-arg LIBRDKAFKA_VERSION=$(cat LIBRDKAFKA_VERSION) \
---build-arg CONFLUENT_KAFKA_VERSION=$(cat CONFLUENT_KAFKA_VERSION) \
+--build-arg LIBRDKAFKA_VERSION=$LIBRDKAFKA_VERSION \
+--build-arg CONFLUENT_KAFKA_VERSION=$CONFLUENT_KAFKA_VERSION \
 -t catenae/link:ubuntu .
 docker tag catenae/link:ubuntu catenae/link:latest
 docker tag catenae/link:ubuntu catenae/link:ubuntu_$CATENAE_VERSION
