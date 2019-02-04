@@ -53,5 +53,5 @@ RUN \
     && rm -rf \
         /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
-
-ENTRYPOINT ["bash", "--login", "-i"]
+WORKDIR /opt/catenae
+ENTRYPOINT ["python"]
