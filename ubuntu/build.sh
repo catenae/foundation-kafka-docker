@@ -1,4 +1,5 @@
 #!/bin/bash
+source ../env.sh
 docker build \
 --build-arg CATENAE_VERSION=$CATENAE_VERSION \
 --build-arg LIBRDKAFKA_VERSION=$LIBRDKAFKA_VERSION \
