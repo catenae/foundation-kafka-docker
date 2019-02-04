@@ -39,6 +39,8 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
+        deprecated \
+        web3==4.8.2 \
         pymongo \
         confluent-kafka==$CONFLUENT_KAFKA_VERSION \
         orderedset \
