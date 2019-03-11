@@ -55,5 +55,7 @@ RUN \
     && rm -rf \
         /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
+
+ENV CATENAE_DOCKER true
 WORKDIR /opt/catenae
 ENTRYPOINT ["python"]
