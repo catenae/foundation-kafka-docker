@@ -40,13 +40,14 @@ RUN \
     pip install --upgrade pip \
     && pip install \
         deprecated \
-        web3==4.8.2 \
+        web3 \
         pymongo \
         confluent-kafka==$CONFLUENT_KAFKA_VERSION \
         orderedset \
         lxml \
         pyyaml \
         dateutils \
+        pickle5 \
         catenae==$CATENAE_VERSION \
     && apk del --purge \
         build-base \

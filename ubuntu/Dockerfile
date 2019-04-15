@@ -40,7 +40,7 @@ RUN \
     && pip install --upgrade pip \
     && pip install \
         deprecated \
-        web3==4.8.2 \
+        web3 \
         aerospike \
         confluent-kafka==$CONFLUENT_KAFKA_VERSION \
 	pymongo \
@@ -48,6 +48,7 @@ RUN \
         lxml \
         pyyaml \
         dateutils \
+        pickle5 \
         catenae==$CATENAE_VERSION \
     && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
     && apt-get clean \
