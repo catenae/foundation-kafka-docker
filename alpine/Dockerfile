@@ -22,9 +22,9 @@ ENV LIBRDKAFKA_BASE_URL=https://github.com/edenhill/librdkafka/archive
 RUN \
     apk update && apk upgrade \
     && apk add \
-        bash \
-        build-base \
-        curl \
+    bash \
+    build-base \
+    curl \
     && curl -L $LIBRDKAFKA_BASE_URL/v$LIBRDKAFKA_VERSION.tar.gz -o librdkafka.tar.gz -s \
     && tar xf librdkafka.tar.gz \
     && cd librdkafka-$LIBRDKAFKA_VERSION \
@@ -39,21 +39,21 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
-        deprecated \
-        web3 \
-        pymongo \
-        confluent-kafka==$CONFLUENT_KAFKA_VERSION \
-        orderedset \
-        lxml \
-        pyyaml \
-        dateutils \
-        pickle5 \
-        catenae==$CATENAE_VERSION \
+    deprecated \
+    web3 \
+    pymongo \
+    confluent-kafka==$CONFLUENT_KAFKA_VERSION \
+    orderedset \
+    lxml \
+    pyyaml \
+    dateutils \
+    pickle5 \
+    catenae==$CATENAE_VERSION \
     && apk del --purge \
-        build-base \
+    build-base \
     && rm -rf \
-        /var/cache/apk/* \
-        /root/.cache/pip \
+    /var/cache/apk/* \
+    /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
 
 ENV CATENAE_DOCKER true

@@ -23,10 +23,10 @@ RUN \
     apt-get update && apt-get -y upgrade \
     && dpkg-query -Wf '${Package}\n' | sort > init_pkgs \
     && apt-get -y install \
-        build-essential \
-        curl \
-        libssl-dev \
-        zlib1g-dev \
+    build-essential \
+    curl \
+    libssl-dev \
+    zlib1g-dev \
     && dpkg-query -Wf '${Package}\n' | sort > new_pkgs \
     && curl -L $LIBRDKAFKA_BASE_URL/v$LIBRDKAFKA_VERSION.tar.gz -o librdkafka.tar.gz -s \
     && tar xf librdkafka.tar.gz \
@@ -39,22 +39,22 @@ RUN \
     && rm librdkafka.tar.gz \
     && pip install --upgrade pip \
     && pip install \
-        deprecated \
-        web3 \
-        aerospike \
-        confluent-kafka==$CONFLUENT_KAFKA_VERSION \
-	pymongo \
-        orderedset \
-        lxml \
-        pyyaml \
-        dateutils \
-        pickle5 \
-        catenae==$CATENAE_VERSION \
+    deprecated \
+    web3 \
+    aerospike \
+    confluent-kafka==$CONFLUENT_KAFKA_VERSION \
+    pymongo \
+    orderedset \
+    lxml \
+    pyyaml \
+    dateutils \
+    pickle5 \
+    catenae==$CATENAE_VERSION \
     && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
     && apt-get clean \
     && rm init_pkgs new_pkgs \
     && rm -rf \
-        /root/.cache/pip \
+    /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
 
 ENV CATENAE_DOCKER true
