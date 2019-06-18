@@ -49,6 +49,10 @@ RUN \
     pyyaml \
     dateutils \
     pickle5 \
+    flask \
+    flask-restful \
+    flask_cors \
+    gunicorn \
     catenae==$CATENAE_VERSION \
     && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
     && apt-get clean \

@@ -48,6 +48,10 @@ RUN \
     pyyaml \
     dateutils \
     pickle5 \
+    flask \
+    flask-restful \
+    flask_cors \
+    gunicorn \
     catenae==$CATENAE_VERSION \
     && apk del --purge \
     build-base \
