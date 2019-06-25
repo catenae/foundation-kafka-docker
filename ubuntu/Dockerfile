@@ -61,6 +61,10 @@ RUN \
     /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+
 
-ENV CATENAE_DOCKER true
+ENV \
+    CATENAE_DOCKER=true \
+    JSONRPC_PORT=9494 \
+    JSONRPC_HOST=localhost
+
 WORKDIR /opt/catenae
 ENTRYPOINT ["python"]
