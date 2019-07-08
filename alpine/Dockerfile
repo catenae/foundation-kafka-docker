@@ -33,8 +33,7 @@ RUN \
     && make install \
     && cd .. \
     && rm -r librdkafka-$LIBRDKAFKA_VERSION \
-    && rm librdkafka.tar.gz \
-    && cd /opt
+    && rm librdkafka.tar.gz
 
 RUN \
     pip install --upgrade pip \
@@ -52,18 +51,18 @@ RUN \
     flask-restful \
     flask_cors \
     gunicorn \
+    eventlet \
     catenae==$CATENAE_VERSION \
-    && apk del --purge \
-    build-base \
-    && rm -rf \
-    /var/cache/apk/* \
-    /root/.cache/pip \
-    && find / -type d -name __pycache__ -exec rm -r {} \+
+    && apk del --purge build-base \
+    && rm -rf /var/cache/apk/* /root/.cache/pip \
+    && find / -type d -name __pycache__ -exec rm -r {} \+ \
+    && echo "tcp 6 TCP\nudp 17 UDP" >> /etc/protocols   
 
 ENV \
     CATENAE_DOCKER=true \
     JSONRPC_PORT=9494 \
-    JSONRPC_HOST=localhost
+    JSONRPC_HOST=localhost \
+    JSONRPC_SCHEME=http
 
 WORKDIR /opt/catenae
 ENTRYPOINT ["python"]
