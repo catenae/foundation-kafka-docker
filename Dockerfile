@@ -1,5 +1,5 @@
 # Catenae Link base image
-# Copyright (C) 2018 Rodrigo Martínez <dev@brunneis.com>
+# Copyright (C) 2017-2019 Rodrigo Martínez <dev@brunneis.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,20 +14,22 @@
 
 FROM brunneis/python:3.7
 
-ARG CATENAE_VERSION
 ARG LIBRDKAFKA_VERSION
 ARG CONFLUENT_KAFKA_VERSION
-ENV LIBRDKAFKA_BASE_URL https://github.com/edenhill/librdkafka/archive
+ARG ROCKSDB_VERSION
 
+# Build librdkafka
 RUN \
-    apt-get update && apt-get -y upgrade \
+    LIBRDKAFKA_BASE_URL=https://github.com/edenhill/librdkafka/archive \
+    && apt-get update \
     && dpkg-query -Wf '${Package}\n' | sort > init_pkgs \
     && apt-get -y install \
     build-essential \
     curl \
+    && dpkg-query -Wf '${Package}\n' | sort > current_pkgs \
+    && apt-get -y install \
     libssl-dev \
     zlib1g-dev \
-    && dpkg-query -Wf '${Package}\n' | sort > new_pkgs \
     && curl -L $LIBRDKAFKA_BASE_URL/v$LIBRDKAFKA_VERSION.tar.gz -o librdkafka.tar.gz -s \
     && tar xf librdkafka.tar.gz \
     && cd librdkafka-$LIBRDKAFKA_VERSION \
@@ -38,11 +40,27 @@ RUN \
     && rm -r librdkafka-$LIBRDKAFKA_VERSION \
     && rm librdkafka.tar.gz
 
+# Build rocksdb
+RUN \
+    ROCKSDB_BASE_URL=https://github.com/facebook/rocksdb/archive \
+    && apt-get install -y \
+    libsnappy-dev \
+    libbz2-dev \
+    libgflags-dev \
+    liblz4-dev \
+    libzstd-dev \
+    && curl -L $ROCKSDB_BASE_URL/v$ROCKSDB_VERSION.tar.gz -o rocksdb.tar.gz -s \
+    && tar xf rocksdb.tar.gz \
+    && cd rocksdb-$ROCKSDB_VERSION \
+    && DEBUG_LEVEL=0 make shared_lib install-shared \
+    && cd .. \
+    && rm -r rocksdb-$ROCKSDB_VERSION \
+    && rm rocksdb.tar.gz
+
 RUN \
     pip install --upgrade pip \
     && pip install \
-    deprecated \
-    web3 \
+    web3==5.0.0 \
     aerospike \
     confluent-kafka==$CONFLUENT_KAFKA_VERSION \
     pymongo \
@@ -54,16 +72,19 @@ RUN \
     flask \
     flask-restful \
     flask_cors \
-    gunicorn \
-    eventlet \
-    catenae==$CATENAE_VERSION \
-    && apt-get -y purge $(diff -u init_pkgs new_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p') \
+    gunicorn==19.9.0 \
+    python-rocksdb==0.7.0 \
+    easyrocks \
+    synced \
+    txlog \
+    && apt-get -y purge $(diff -u init_pkgs current_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p' | uniq) \
     && apt-get clean \
-    && rm -rf init_pkgs new_pkgs /root/.cache/pip \
+    && rm -rf init_pkgs current_pkgs /root/.cache/pip \
     && find / -type d -name __pycache__ -exec rm -r {} \+ \
-    && echo "tcp 6 TCP\nudp 17 UDP" >> /etc/protocols   
+    && echo "tcp 6 TCP\nudp 17 UDP" >> /etc/protocols
 
 ENV \
+    LD_LIBRARY_PATH=/usr/local/lib \
     CATENAE_DOCKER=true \
     JSONRPC_PORT=9494 \
     JSONRPC_HOST=localhost \

@@ -1,5 +1,4 @@
 #!/bin/bash
-cd alpine
-./push.sh
-cd ../ubuntu
-./push.sh
+source env.sh
+docker push catenae/foundation:ubuntu
+docker push catenae/foundation
