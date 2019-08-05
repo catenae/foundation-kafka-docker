@@ -73,6 +73,7 @@ RUN \
     flask-restful \
     flask_cors \
     gunicorn==19.9.0 \
+    eventlet \
     python-rocksdb==0.7.0 \
     easyrocks \
     synced \
