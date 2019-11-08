@@ -60,24 +60,23 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
-    web3==5.0.0 \
-    aerospike \
     confluent-kafka==$CONFLUENT_KAFKA_VERSION \
-    pymongo \
+    easymongo \
+    easyaerospike \
+    easyrocks \
+    synced \
+    txlog \
     orderedset \
     lxml \
     pyyaml \
     dateutils \
-    pickle5 \
     flask \
     flask-restful \
     flask_cors \
     gunicorn==19.9.0 \
     eventlet \
-    python-rocksdb==0.7.0 \
-    easyrocks \
-    synced \
-    txlog \
+    web3==5.0.0 \
+    pickle5 \
     && apt-get -y purge $(diff -u init_pkgs current_pkgs | grep -E "^\+" | cut -d + -f2- | sed -n '1!p' | uniq) \
     && apt-get clean \
     && rm -rf init_pkgs current_pkgs /root/.cache/pip \
