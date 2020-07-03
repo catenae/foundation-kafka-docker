@@ -1,5 +1,5 @@
 # Catenae Link base image
-# Copyright (C) 2017-2019 Rodrigo Martínez <dev@brunneis.com>
+# Copyright (C) 2017-2020 Rodrigo Martínez <dev@brunneis.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@ RUN \
 RUN \
     pip install --upgrade pip \
     && pip install \
+    cython==0.29.20 \
     confluent-kafka==$CONFLUENT_KAFKA_VERSION \
     easymongo \
     easyaerospike \
